@@ -8,14 +8,20 @@ import plotly.graph_objects as go
 st.set_page_config(page_title="Finanças Pro", layout="wide", page_icon="💳")
 
 # --- CONEXÃO COM GOOGLE SHEETS ---
-URL_PLANILHA = "https://docs.google.com/spreadsheets/d/1O5KTzEw-p45y-8zEmkAIee92jv85GrLSEzFvtdm1wRo/edit?gid=0#gid=0"
+# COLOQUE SEU LINK ENTRE AS ASPAS ABAIXO:
+URL_PLANILHA = "https://docs.google.com/spreadsheets/d/1O5KTzEw-p45y-8zEmkAIee92jv85GrLSEzFvtdm1wRo/edit?usp=sharing"
+
 conn = st.connection("gsheets", type=GSheetsConnection)
 
 # --- CARREGAR DADOS ---
-df_lancamentos=conn.read(spreadsheet=URL_PLANILHA,worksheet="Lancamentos")
-df_metas=conn.read(spreadsheet=URL_PLANILHA,worksheet="Metas")
-df_cartoes=conn.read(spreadsheet=URL_PLANILHA,worksheet="Cartoes")
-
+try:
+    df_lancamentos = conn.read(spreadsheet=URL_PLANILHA, worksheet="Lancamentos")
+    df_metas = conn.read(spreadsheet=URL_PLANILHA, worksheet="Metas")
+    df_cartoes = conn.read(spreadsheet=URL_PLANILHA, worksheet="Cartoes")
+except Exception as e:
+    st.error("🚨 Erro de Conexão com o Google Sheets")
+    st.info("Certifique-se de que: \n1. O link está correto. \n2. A planilha está como 'Qualquer pessoa com o link' e 'Editor'. \n3. As abas se chamam Lancamentos, Metas e Cartoes.")
+    st.stop()
 
 # Listas auxiliares para os menus
 lista_cartoes = df_cartoes["Nome"].tolist() if not df_cartoes.empty else ["Dinheiro", "Pix"]
@@ -74,8 +80,11 @@ with aba1:
         with col_esq:
             st.subheader("💳 Gastos por Cartão")
             df_gastos_pag = df_mes[df_mes['Tipo'] != 'Receita'].groupby('Pagamento')['Valor'].sum().reset_index()
-            fig_cartao = px.bar(df_gastos_pag, x='Pagamento', y='Valor', text_auto='.2f', color='Pagamento')
-            st.plotly_chart(fig_cartao, use_container_width=True)
+            if not df_gastos_pag.empty:
+                fig_cartao = px.bar(df_gastos_pag, x='Pagamento', y='Valor', text_auto='.2f', color='Pagamento')
+                st.plotly_chart(fig_cartao, use_container_width=True)
+            else:
+                st.write("Sem gastos registrados neste mês.")
 
         with col_dir:
             st.subheader("🎯 Planejado vs Realizado")
@@ -105,18 +114,21 @@ with aba3:
     col_a, col_b = st.columns(2)
     with col_a:
         st.write("1. Seus Cartões/Contas")
-        ed_cartoes = st.data_editor(df_cartoes, num_rows="dynamic")
+        ed_cartoes = st.data_editor(df_cartoes, num_rows="dynamic", key="editor_cartoes")
     with col_b:
         st.write("2. Suas Metas por Mês")
-        ed_metas = st.data_editor(df_metas, num_rows="dynamic")
+        ed_metas = st.data_editor(df_metas, num_rows="dynamic", key="editor_metas")
     
     st.divider()
     st.write("3. Histórico de Lançamentos")
-    ed_lanc = st.data_editor(df_lancamentos, num_rows="dynamic")
+    ed_lanc = st.data_editor(df_lancamentos, num_rows="dynamic", key="editor_lancamentos")
     
-    if st.button("Salvar Todas as Alterações"):
-        conn.update(spreadsheet=URL_PLANILHA, worksheet="Cartoes", data=ed_cartoes)
-        conn.update(spreadsheet=URL_PLANILHA, worksheet="Metas", data=ed_metas)
-        conn.update(spreadsheet=URL_PLANILHA, worksheet="Lancamentos", data=ed_lanc)
-        st.success("Planilha atualizada!")
-        st.rerun()
+    if st.button("Confirmar e Salvar Todas as Alterações"):
+        try:
+            conn.update(spreadsheet=URL_PLANILHA, worksheet="Cartoes", data=ed_cartoes)
+            conn.update(spreadsheet=URL_PLANILHA, worksheet="Metas", data=ed_metas)
+            conn.update(spreadsheet=URL_PLANILHA, worksheet="Lancamentos", data=ed_lanc)
+            st.success("Planilha atualizada com sucesso!")
+            st.rerun()
+        except Exception as e:
+            st.error(f"Erro ao salvar: {e}")
