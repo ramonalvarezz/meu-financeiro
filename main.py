@@ -9,7 +9,7 @@ st.set_page_config(page_title="Finanças Pro", layout="wide", page_icon="💳")
 
 # --- CONEXÃO COM GOOGLE SHEETS ---
 # COLOQUE SEU LINK ENTRE AS ASPAS ABAIXO:
-URL_PLANILHA = "https://docs.google.com/spreadsheets/d/1O5KTzEw-p45y-8zEmkAIee92jv85GrLSEzFvtdm1wRo/edit?gid=0#gid=0"
+URL_PLANILHA = https://docs.google.com/spreadsheets/d/1O5KTzEw-p45y-8zEmkAIee92jv85GrLSEzFvtdm1wRo/edit?usp=sharing
 
 conn = st.connection("gsheets", type=GSheetsConnection)
 
