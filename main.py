@@ -114,7 +114,7 @@ with aba3:
     ed_lanc = st.data_editor(df_lancamentos, num_rows="dynamic")
     
     if st.button("Salvar Todas as Alterações"):
-        conn.update(spreadsheet=https:URL_PLANILHA, worksheet="Cartoes", data=ed_cartoes)
+        conn.update(spreadsheet=URL_PLANILHA, worksheet="Cartoes", data=ed_cartoes)
         conn.update(spreadsheet=URL_PLANILHA, worksheet="Metas", data=ed_metas)
         conn.update(spreadsheet=URL_PLANILHA, worksheet="Lancamentos", data=ed_lanc)
         st.success("Planilha atualizada!")
