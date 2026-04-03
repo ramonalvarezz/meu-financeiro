@@ -15,9 +15,7 @@ conn = st.connection("gsheets", type=GSheetsConnection)
 df_lancamentos = conn.read(spreadsheet=URL_PLANILHA, worksheet="Lancamentos")
 df_metas = conn.read(spreadsheet=URL_PLANILHA, worksheet="Metas")
 df_cartoes = conn.read(spreadsheet=URL_PLANILHA, worksheet="Cartoes")
-except Exception as e:
-    st.error(f"Erro ao ler a planilha: Verifique se os nomes das abas estão corretos e se o link está público.")
-    st.stop()
+
 
 # Listas auxiliares para os menus
 lista_cartoes = df_cartoes["Nome"].tolist() if not df_cartoes.empty else ["Dinheiro", "Pix"]
