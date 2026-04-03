@@ -12,9 +12,9 @@ URL_PLANILHA = "https://docs.google.com/spreadsheets/d/1O5KTzEw-p45y-8zEmkAIee92
 conn = st.connection("gsheets", type=GSheetsConnection)
 
 # --- CARREGAR DADOS ---
-df_lancamentos = conn.read(spreadsheet=URL_PLANILHA, worksheet="Lancamentos")
-df_metas = conn.read(spreadsheet=URL_PLANILHA, worksheet="Metas")
-df_cartoes = conn.read(spreadsheet=URL_PLANILHA, worksheet="Cartoes")
+df_lancamentos = conn.read(spreadsheet=https://docs.google.com/spreadsheets/d/1O5KTzEw-p45y-8zEmkAIee92jv85GrLSEzFvtdm1wRo/edit?gid=0#gid=0, worksheet="Lancamentos")
+df_metas = conn.read(spreadsheet=https://docs.google.com/spreadsheets/d/1O5KTzEw-p45y-8zEmkAIee92jv85GrLSEzFvtdm1wRo/edit?gid=0#gid=0, worksheet="Metas")
+df_cartoes = conn.read(spreadsheet=https://docs.google.com/spreadsheets/d/1O5KTzEw-p45y-8zEmkAIee92jv85GrLSEzFvtdm1wRo/edit?gid=0#gid=0, worksheet="Cartoes")
 
 # Listas auxiliares para os menus
 lista_cartoes = df_cartoes["Nome"].tolist() if not df_cartoes.empty else ["Dinheiro", "Pix"]
@@ -43,7 +43,7 @@ with aba2:
             novo_dado = pd.DataFrame([{"Data": str(data_lanc), "Tipo": tipo, "Categoria": cat, 
                                        "Descricao": desc, "Pagamento": pag, "Valor": val}])
             df_atualizado = pd.concat([df_lancamentos, novo_dado], ignore_index=True)
-            conn.update(spreadsheet=URL_PLANILHA, worksheet="Lancamentos", data=df_atualizado)
+            conn.update(spreadsheet=https://docs.google.com/spreadsheets/d/1O5KTzEw-p45y-8zEmkAIee92jv85GrLSEzFvtdm1wRo/edit?gid=0#gid=0, worksheet="Lancamentos", data=df_atualizado)
             st.success("Lançamento registrado com sucesso!")
             st.rerun()
 
@@ -114,8 +114,8 @@ with aba3:
     ed_lanc = st.data_editor(df_lancamentos, num_rows="dynamic")
     
     if st.button("Salvar Todas as Alterações"):
-        conn.update(spreadsheet=URL_PLANILHA, worksheet="Cartoes", data=ed_cartoes)
-        conn.update(spreadsheet=URL_PLANILHA, worksheet="Metas", data=ed_metas)
-        conn.update(spreadsheet=URL_PLANILHA, worksheet="Lancamentos", data=ed_lanc)
+        conn.update(spreadsheet=https://docs.google.com/spreadsheets/d/1O5KTzEw-p45y-8zEmkAIee92jv85GrLSEzFvtdm1wRo/edit?gid=0#gid=0, worksheet="Cartoes", data=ed_cartoes)
+        conn.update(spreadsheet=https://docs.google.com/spreadsheets/d/1O5KTzEw-p45y-8zEmkAIee92jv85GrLSEzFvtdm1wRo/edit?gid=0#gid=0, worksheet="Metas", data=ed_metas)
+        conn.update(spreadsheet=https://docs.google.com/spreadsheets/d/1O5KTzEw-p45y-8zEmkAIee92jv85GrLSEzFvtdm1wRo/edit?gid=0#gid=0, worksheet="Lancamentos", data=ed_lanc)
         st.success("Planilha atualizada!")
         st.rerun()
