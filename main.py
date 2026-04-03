@@ -8,7 +8,7 @@ import plotly.graph_objects as go
 st.set_page_config(page_title="Finanças Pro", layout="wide", page_icon="💳")
 
 # --- CONEXÃO COM GOOGLE SHEETS ---
-URL_PLANILHA = "COLE_AQUI_O_LINK_DA_SUA_PLANILHA"
+URL_PLANILHA = "https://docs.google.com/spreadsheets/d/1O5KTzEw-p45y-8zEmkAIee92jv85GrLSEzFvtdm1wRo/edit?gid=0#gid=0"
 conn = st.connection("gsheets", type=GSheetsConnection)
 
 # --- CARREGAR DADOS ---
