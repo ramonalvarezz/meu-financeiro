@@ -12,9 +12,9 @@ URL_PLANILHA = "https://docs.google.com/spreadsheets/d/1O5KTzEw-p45y-8zEmkAIee92
 conn = st.connection("gsheets", type=GSheetsConnection)
 
 # --- CARREGAR DADOS ---
-    df_lancamentos = conn.read(spreadsheet=URL_PLANILHA, worksheet="Lancamentos")
-    df_metas = conn.read(spreadsheet=URL_PLANILHA, worksheet="Metas")
-    df_cartoes = conn.read(spreadsheet=URL_PLANILHA, worksheet="Cartoes")
+df_lancamentos = conn.read(spreadsheet=URL_PLANILHA, worksheet="Lancamentos")
+df_metas = conn.read(spreadsheet=URL_PLANILHA, worksheet="Metas")
+df_cartoes = conn.read(spreadsheet=URL_PLANILHA, worksheet="Cartoes")
 except Exception as e:
     st.error(f"Erro ao ler a planilha: Verifique se os nomes das abas estão corretos e se o link está público.")
     st.stop()
